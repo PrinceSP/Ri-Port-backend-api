@@ -1,0 +1,33 @@
+{
+  "name": "ri-port-backend-api",
+  "version": "1.0.0",
+  "description": "backend api for mobile and web e-report ",
+  "main": "index.js",
+  "scripts": {
+    "start":"nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrinceSP/Ri-Port-backend-api.git"
+  },
+  "keywords": [
+    "API",
+    "NodeJS",
+    "MongoDB",
+    "AI"
+  ],
+  "author": "PrinceSP",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PrinceSP/Ri-Port-backend-api/issues"
+  },
+  "homepage": "https://github.com/PrinceSP/Ri-Port-backend-api#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
