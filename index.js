@@ -8,4 +8,4 @@ const PORT = process.env.PORT || 2000
 
 app.use('/',(req,res)=>res.send('localhost connected'))
 
-app.listen(PORT,()=>console.log(`server connected to port:${PORT}`))
+app.listen(PORT,()=>console.log(`server and database has been connected to port:${PORT}`))
