@@ -1,10 +1,14 @@
 const router = require('express').Router()
 
-router.post('/register',(req,res)=>{
-  res.send('hello this is register endpoint')
+//CREATE -> POST = post the informations when the user register their account
+router.post('/register',(req,res,next)=>{
+  res.json({
+  name:'prince'})
 })
 
-router.get('/login',(req,res)=>{
-  res.send('hello this is login endpoint')
+//user login with their registered account
+router.get('/login',(req,res,next)=>{
+  res.json({
+  name:'prince'})
 })
 module.exports = router
