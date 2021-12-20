@@ -1,18 +1,23 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
-
+const morgan = require("morgan")
+const helmet = require("helmet")
 //import routes
 const authRoute= require('./src/routes/auth')
+const userRoute= require('./src/routes/users')
 
-const app = express()
 dotenv.config()
+const app = express()
 
 //setting up the port
-const PORT = process.env.PORT || 2000
+const PORT = process.env.PORT
 
 //route middleware
-app.use('/api/user',authRoute)
+app.use('/api/auth',authRoute)
+app.use('/api/users',userRoute)
+app.use(morgan('common'))
+app.use(helmet())
 
 app.use('/',(req,res,next)=>{
   res.send('server is connected. this is / endpoint')
