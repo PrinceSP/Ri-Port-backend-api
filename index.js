@@ -8,6 +8,7 @@ const bodyparser = require('body-parser')
 //import routes
 const authRoute= require('./src/routes/auth')
 const userRoute= require('./src/routes/users')
+const postRoute= require('./src/routes/posts')
 
 dotenv.config()
 const app = express()
@@ -20,6 +21,7 @@ app.use(bodyparser.json())
 //route middleware
 app.use('/api/auth',authRoute)
 app.use('/api/users',userRoute)
+app.use('/api/posts',postRoute)
 
 app.use(morgan('common'))
 app.use(helmet())

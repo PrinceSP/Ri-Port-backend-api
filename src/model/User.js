@@ -4,26 +4,26 @@ const User = new mongoose.Schema(
   {
     username:{
       type:String,
-      require:true,
+      required:true,
       unique:true,
       min: 8,
       max: 25
     },
     email:{
       type:String,
-      require:true,
+      required:true,
       min: 8,
       max: 25,
       unique: true
     },
     password:{
       type:String,
-      require:true,
+      required:true,
       min: 6
     },
     address:{
       type:String,
-      require:false
+      required:false
     },
     profilePicture:{
       type:String,
@@ -32,16 +32,16 @@ const User = new mongoose.Schema(
     ktpId:{
       type:String,
       unique:true,
-      require:true
+      required:true
     },
     phoneNumber:{
       type:String,
       unique:true,
-      require:true
+      required:true
     },
     dateOfBirth:{
       type:String,
-      require:true
+      required:true
     }
   },
   {timestamps:true}
