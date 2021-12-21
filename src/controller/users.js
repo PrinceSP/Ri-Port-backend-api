@@ -29,12 +29,22 @@ exports.updateUser = async (req,res)=>{
 exports.deleteUser = async (req,res)=>{
   if (req.body.userId === req.params.id) {
     try {
-      await User.deleteOne(req.params.id)
+      const user = await User.findByIdAndDelete({_id:req.params.id})
       res.status(200).json('account has been deleted')
     } catch (e) {
       return res.status(500).json(e)
     }
   } else{
     return res.status(403).json('you can only delete your account')
+  }
+}
+
+exports.getUser = async (req,res)=>{
+  try {
+    const user = await User.findById(req.params.id)
+    const {password,updatedAt, ...other} = user._doc
+    res.status(200).json(other)
+  } catch (e) {
+    return res.status(500).json(e)
   }
 }
