@@ -1,10 +1,7 @@
 const router = require('express').Router()
+const userController = require('../controller/users')
 
-router.get('/user',(req,res,next)=>{
-  // res.status(200).json({
-  // name:'prince'})
-  res.send('hello user route')
-  next()
-})
+router.put('/:id', userController.updateUser)
+router.delete('/:id', userController.deleteUser)
 
 module.exports = router
