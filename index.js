@@ -25,16 +25,14 @@ app.use('/api/posts',postRoute)
 
 app.use(morgan('common'))
 app.use(helmet())
-app.use((req,res,next)=>{
-  res.setHeader('Access-Control-Allow-Origin','*')
-  res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization')
-  next()
-})
+// app.use((req,res,next)=>{
+//   res.setHeader('Access-Control-Allow-Origin','*')
+//   res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS')
+//   res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization')
+// })
 
-app.use('/',(req,res,next)=>{
-  res.send('server is connected. this is / endpoint')
-  next()
+app.use('/',(req,res)=>{
+  res.status(200).send('server is connected. this is / endpoint')
 })
 //connnect to MongoDB database with mongoose library
 //app listen to the port for localhost server
