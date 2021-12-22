@@ -9,7 +9,7 @@ const Post = new mongoose.Schema(
     fullname:{
       type:String,
       // required:true,
-      min:6
+      min:8
     },
     address:{
       type:String,
@@ -35,11 +35,8 @@ const Post = new mongoose.Schema(
     },
     desc:{
       type:String,
-      min:6
-    },
-    ktpPhoto:{
-      type:String,
-      // required:true
+      min:8,
+      max:40
     },
     roadPicture:{
       type:String,
