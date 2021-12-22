@@ -9,5 +9,7 @@ router.put('/:id', postController.updatePost)
 router.delete('/:id', postController.deletePost)
 //get posts
 router.get('/:id', postController.getPost)
+//get current user post
+// router.get('/postsList',postController.getPostsList)
 
 module.exports = router

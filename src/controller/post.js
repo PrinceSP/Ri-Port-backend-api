@@ -47,3 +47,13 @@ exports.getPost = async (req,res)=>{
     return res.status(500).json(e)
   }
 }
+
+// exports.getPostsList = async (req,res)=>{
+//   let postHolder = []
+//   try{
+//     const post = await Post.findById(req.params.id)
+//     res.status(200).json(post)
+//   } catch(e){
+//     return res.status(500).json(e)
+//   }
+// }

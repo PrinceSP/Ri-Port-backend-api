@@ -41,6 +41,10 @@ const Post = new mongoose.Schema(
     roadPicture:{
       type:String,
       // required:true
+    },
+    status:{
+      type:String,
+      default:"Pending"
     }
   },
   {timestamps:true}
