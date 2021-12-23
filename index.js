@@ -6,9 +6,7 @@ const helmet = require("helmet")
 const bodyparser = require('body-parser')
 
 //import routes
-const authRoute= require('./src/routes/auth')
-const userRoute= require('./src/routes/users')
-const postRoute= require('./src/routes/posts')
+const {authRoute,userRoute,postRoute,feedbackRoute} = require('./src/routes')
 
 dotenv.config()
 const app = express()
@@ -19,9 +17,11 @@ const PORT = process.env.PORT
 app.use(bodyparser.json())
 
 //route middleware
+// app.use('/api/feedbacks',feedbackRoute)
 app.use('/api/auth',authRoute)
 app.use('/api/users',userRoute)
 app.use('/api/posts',postRoute)
+app.use('/api/feedback',feedbackRoute)
 
 app.use(morgan('common'))
 app.use(helmet())
