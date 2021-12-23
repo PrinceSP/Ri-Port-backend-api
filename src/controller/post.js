@@ -1,4 +1,5 @@
 const Post = require('../model/post')
+const User = require('../model/User')
 
 exports.createPost = async (req,res)=>{
   const newPost = new Post(req.body)
@@ -25,6 +26,7 @@ exports.updatePost = async (req,res)=>{
 
 }
 
+//delete only one post with its current user id 
 exports.deletePost = async (req,res)=>{
   try{
     const post = await Post.findById(req.params.id)
@@ -39,6 +41,7 @@ exports.deletePost = async (req,res)=>{
   }
 }
 
+//get single post
 exports.getPost = async (req,res)=>{
   try{
     const post = await Post.findById(req.params.id)
@@ -48,12 +51,23 @@ exports.getPost = async (req,res)=>{
   }
 }
 
-// exports.getPostsList = async (req,res)=>{
-//   let postHolder = []
-//   try{
-//     const post = await Post.findById(req.params.id)
-//     res.status(200).json(post)
-//   } catch(e){
-//     return res.status(500).json(e)
-//   }
-// }
+//get current user posts list
+exports.getPostsList = async (req,res)=>{
+  try{
+    const currentUser = await User.findById(req.body.userId)
+    const userPosts = await Post.find({userId:currentUser._id})
+    res.status(200).json(userPosts)
+  } catch(e){
+    return res.status(500).json(e)
+  }
+}
+
+//get users posts list
+exports.getAllPostsList = async (req,res)=>{
+  try{
+    const userPosts = await Post.find().sort({_id:-1})
+    res.status(200).json(userPosts)
+  } catch(e){
+    return res.status(500).json(e)
+  }
+}

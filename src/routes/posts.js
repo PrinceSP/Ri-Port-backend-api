@@ -10,6 +10,8 @@ router.delete('/:id', postController.deletePost)
 //get posts
 router.get('/:id', postController.getPost)
 //get current user post
-// router.get('/postsList',postController.getPostsList)
+router.get('/postsList/currentAll',postController.getPostsList)
+//get all users posts list
+router.get('/postsList/all',postController.getAllPostsList)
 
 module.exports = router
