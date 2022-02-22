@@ -15,13 +15,6 @@ const app = express()
 const PORT = process.env.PORT
 //allows express to read the body and then parse that into a Json object
 app.use(bodyparser.json())
-
-//route middleware
-app.use('/api/auth',authRoute)
-app.use('/api/users',userRoute)
-app.use('/api/posts',postRoute)
-app.use('/api/feedback',feedbackRoute)
-
 app.use(morgan('common'))
 app.use(helmet())
 app.use((req,res,next)=>{
@@ -29,6 +22,12 @@ app.use((req,res,next)=>{
   res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS')
   res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization')
 })
+
+//route middleware
+app.use('/api/auth',authRoute)
+app.use('/api/users',userRoute)
+app.use('/api/posts',postRoute)
+app.use('/api/feedback',feedbackRoute)
 
 app.use('/',(req,res)=>{
   res.status(200).send('server is connected. this is / endpoint')
