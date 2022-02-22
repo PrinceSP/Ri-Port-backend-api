@@ -8,29 +8,31 @@ const Post = new mongoose.Schema(
     },
     fullname:{
       type:String,
-      // required:true,
+      required:true,
       min:8
     },
     address:{
       type:String,
-      // required:true
+      required:true
     },
     phoneNumber:{
       type:String,
-      // required:true
+      required:true
     },
     ktpId:{
       type:String,
-      // required:true
+      required:true
     },
     location:{
       latitude:{
         type:String,
-        // required:true
+        required:false,
+        default:''
       },
       longitude:{
         type:String,
-        // required:true
+        required:false,
+        default:''
       }
     },
     desc:{
@@ -40,7 +42,7 @@ const Post = new mongoose.Schema(
     },
     roadPicture:{
       type:String,
-      // required:true
+      required:true
     },
     status:{
       type:String,
