@@ -35,7 +35,7 @@ exports.login = async (req,res)=>{
     !validPassword && res.status(400).json('wrong password')
     const {password,ktpId,...rest} = user
     //when there's nothing wrong, then send message
-    res.status(200).send({message:'success login', datas:rest})
+    res.status(200).send({message:'success login', datas:user})
   } catch (e) {
     res.status(500).json(`error: ${e}`);
   }
