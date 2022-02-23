@@ -19,8 +19,7 @@ exports.register = async (req,res)=>{
     })
     //save user to database
     const user =  await newUser.save()
-    const {password,ktpId,...rest} = user
-    res.status(200).send(...rest)
+    res.status(200).send(user)
   } catch (e) {
     return res.status(500).json(e)
   }
@@ -34,8 +33,9 @@ exports.login = async (req,res)=>{
     //query to check if the user password is valid or not when user send POST request to login with this API
     const validPassword = await bcrypt.compare(req.body.password, user.password)
     !validPassword && res.status(400).json('wrong password')
+    const {password,ktpId,...rest} = user
     //when there's nothing wrong, then send message
-    res.status(200).send({message:'success login', datas:user})
+    res.status(200).send({message:'success login', datas:...rest})
   } catch (e) {
     res.status(500).json(`error: ${e}`);
   }
