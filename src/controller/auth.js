@@ -29,11 +29,12 @@ exports.login = async (req,res)=>{
   try {
     //query to find only one of the user from database
     const user = await User.findOne({username:req.body.username})
+    //when user not found after query
     !user && res.status(404).json('user not found')
     //query to check if the user password is valid or not when user send POST request to login with this API
     const validPassword = await bcrypt.compare(req.body.password, user.password)
+    //when password is not the same with password stored in database or bad request
     !validPassword && res.status(400).json('wrong password')
-    const {password,ktpId,...rest} = user
     //when there's nothing wrong, then send message
     res.status(200).send({message:'success login', datas:user})
   } catch (e) {
