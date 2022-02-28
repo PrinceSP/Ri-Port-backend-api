@@ -9,6 +9,11 @@ const User = new mongoose.Schema(
       min: 8,
       max: 25
     },
+    fullname:{
+      type:String,
+      required:false,
+      min: 8,
+    },
     email:{
       type:String,
       required:true,
