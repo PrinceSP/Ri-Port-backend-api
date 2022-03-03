@@ -37,7 +37,7 @@ const User = new mongoose.Schema(
     ktpId:{
       type:String,
       unique:true,
-      required:true
+      required:false
     },
     phoneNumber:{
       type:String,
@@ -46,7 +46,7 @@ const User = new mongoose.Schema(
     },
     dateOfBirth:{
       type:String,
-      required:true
+      required:false
     }
   },
   {timestamps:true}
