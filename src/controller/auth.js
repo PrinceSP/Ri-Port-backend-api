@@ -9,13 +9,13 @@ exports.register = async (req,res)=>{
     //create new user
     const newUser = new User({
       username: req.body.username,
-      email:  req.body.email,
+      // email:  req.body.email,
       password: hashedPassword,
-      address: req.body.address,
-      profilePicture: req.body.profilePicture,
-      ktpId: req.body.ktpId,
+      // address: req.body.address,
+      // profilePicture: req.body.profilePicture,
+      // ktpId: req.body.ktpId,
       phoneNumber: req.body.phoneNumber,
-      dateOfBirth: req.body.dateOfBirth,
+      // dateOfBirth: req.body.dateOfBirth,
     })
     //save user to database
     const user =  await newUser.save()
