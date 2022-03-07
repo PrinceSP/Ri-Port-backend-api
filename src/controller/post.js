@@ -21,7 +21,7 @@ exports.updatePost = async (req,res)=>{
       res.status(403).json('you can only update your post')
     }
   } catch(e){
-    res.status(500).json(e)
+    return e
   }
 
 }
