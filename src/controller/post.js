@@ -18,15 +18,15 @@ exports.updatePost = async (req,res)=>{
       await post.updateOne({$set: req.body})
       res.status(200).json('post has been updated')
     } else{
-      return res.status(403).json('you can only update your post')
+      res.status(403).json('you can only update your post')
     }
   } catch(e){
-    return res.status(500).json(e)
+    res.status(500).json(e)
   }
 
 }
 
-//delete only one post with its current user id 
+//delete only one post with its current user id
 exports.deletePost = async (req,res)=>{
   try{
     const post = await Post.findById(req.params.id)
@@ -34,10 +34,10 @@ exports.deletePost = async (req,res)=>{
       await post.deleteOne()
       res.status(200).json('post has been deleted')
     } else{
-      return res.status(403).json('you can only delete your post')
+      res.status(403).json('you can only delete your post')
     }
   } catch(e){
-    return res.status(500).json(e)
+    res.status(500).json(e)
   }
 }
 
@@ -47,7 +47,7 @@ exports.getPost = async (req,res)=>{
     const post = await Post.findById(req.params.id)
     res.status(200).json(post)
   } catch(e){
-    return res.status(500).json(e)
+    res.status(500).json(e)
   }
 }
 
@@ -58,7 +58,7 @@ exports.getPostsList = async (req,res)=>{
     const userPosts = await Post.find({userId:currentUser._id})
     res.status(200).json(userPosts)
   } catch(e){
-    return res.status(500).json(e)
+    res.status(500).json(e)
   }
 }
 
@@ -68,6 +68,6 @@ exports.getAllPostsList = async (req,res)=>{
     const userPosts = await Post.find().sort({_id:-1})
     res.status(200).json(userPosts)
   } catch(e){
-    return res.status(500).json(e)
+    res.status(500).json(e)
   }
 }
