@@ -54,7 +54,7 @@ exports.getPost = async (req,res)=>{
 //get current user posts list
 exports.getPostsList = async (req,res)=>{
   try{
-    const currentUser = await User.findById(req.body.userId)
+    const currentUser = await User.findById(req.params.userId)
     const userPosts = await Post.find({userId:currentUser._id})
     res.status(200).json(userPosts)
   } catch(e){
