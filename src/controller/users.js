@@ -30,9 +30,10 @@ exports.deleteUser = async (req,res)=>{
   if (req.body.userId === req.params.id) {
     try {
       const user = await User.findByIdAndDelete({_id:req.params.id})
+      res.status(500).json('Internal Server Error')
       res.status(200).json('account has been deleted')
     } catch (e) {
-      return res.status(500).json(e)
+      return e
     }
   } else{
     return res.status(403).json('you can only delete your account')
