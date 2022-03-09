@@ -12,6 +12,6 @@ router.get('/:id', postController.getPost)
 //get current user post
 router.get('/postsList/:userId',postController.getPostsList)
 //get all users posts list
-router.get('/postsList/all',postController.getAllPostsList)
+router.get('/',postController.getAllPostsList)
 
 module.exports = router
