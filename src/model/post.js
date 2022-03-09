@@ -11,6 +11,11 @@ const Post = new mongoose.Schema(
       required:true,
       min:8
     },
+    title:{
+      type:String,
+      required:false,
+      min:6
+    },
     address:{
       type:String,
       required:true
