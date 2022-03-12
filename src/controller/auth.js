@@ -13,7 +13,7 @@ exports.register = async (req,res)=>{
       password: hashedPassword,
       // address: req.body.address,
       // profilePicture: req.body.profilePicture,
-      // ktpId: req.body.ktpId,
+      ktpId: req.body.ktpId,
       phoneNumber: req.body.phoneNumber,
       // dateOfBirth: req.body.dateOfBirth,
     })
