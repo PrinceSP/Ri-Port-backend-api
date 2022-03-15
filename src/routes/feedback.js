@@ -4,6 +4,6 @@ const feedbackController = require('../controller/feedback')
 //create a feedback
 router.post('/',feedbackController.createFeedback)
 //get feedback
-router.get('/:id', feedbackController.getPost)
+router.get('/', feedbackController.getPost)
 
 module.exports = router
