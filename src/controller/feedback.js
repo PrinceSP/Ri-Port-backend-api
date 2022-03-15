@@ -26,7 +26,7 @@ exports.deleteFeedback = async (req,res) =>{
 
 exports.getPost = async (req,res)=>{
   try{
-    const feedback = await Feedback.find().sort(_id:-1)
+    const feedback = await Feedback.find().sort({_id:-1})
     res.status(200).json(feedback)
   } catch(e){
     res.status(500).json(e)
