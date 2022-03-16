@@ -47,6 +47,10 @@ const User = new mongoose.Schema(
     dateOfBirth:{
       type:String,
       required:false
+    },
+    verified:{
+      type:String,
+      // default:false
     }
   },
   {timestamps:true}
