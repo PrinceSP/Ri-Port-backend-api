@@ -41,3 +41,13 @@ exports.login = async (req,res)=>{
     return e
   }
 }
+
+module.exports.resetPassword = async(req,res)=>{
+  try {
+    const user = await User.findOne({username:req.body.username})
+    !user && res.status(404).send('user not found')
+    res.status(200).send({datas:user})
+  } catch (e) {
+    return e
+  }
+}
