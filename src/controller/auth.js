@@ -42,7 +42,7 @@ exports.login = async (req,res)=>{
   }
 }
 
-module.exports.resetPassword = async(req,res)=>{
+module.exports.verifiByUsername = async(req,res)=>{
   try {
     const user = await User.findOne({username:req.body.username})
     !user && res.status(404).send('user not found')
