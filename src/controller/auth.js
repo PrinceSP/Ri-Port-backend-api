@@ -1,4 +1,6 @@
 const User = require('../model/User')
+const VerificationToken = require('../model/verifyToken')
+const generateOTP = require('../utils/mail')
 const bcrypt = require('bcrypt')
 
 exports.register = async (req,res)=>{
@@ -17,8 +19,17 @@ exports.register = async (req,res)=>{
       phoneNumber: req.body.phoneNumber,
       // dateOfBirth: req.body.dateOfBirth,
     })
-    //save user to database
+
+    const OTP=generateOTP()
+    const newToken = new VerificationToken({
+      owner:newUser._id,
+      token:OTP
+    })
+    // console.log(OTP);
+
+    // save user to database
     const user =  await newUser.save()
+    await newToken.save()
     res.status(200).send(user)
   } catch (e) {
     return res.status(500).json(e)
@@ -41,7 +52,7 @@ exports.login = async (req,res)=>{
     return e
   }
 }
-
+//
 module.exports.verifyByUsername = async(req,res)=>{
   try {
     const user = await User.findOne({username:req.body.username})
