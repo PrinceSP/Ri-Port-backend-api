@@ -10,7 +10,7 @@ module.exports.generateOTP=()=>{
 }
 
 module.exports.mailTransport=()=>{
-  const transporter = nodemailer.createTransport({
+  let transporter = nodemailer.createTransport({
     // host:"smtp.gmail.com",
     service:"gmail",
     // port:465,
