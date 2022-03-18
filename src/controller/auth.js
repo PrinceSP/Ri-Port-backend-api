@@ -34,8 +34,9 @@ exports.register = async (req,res)=>{
       from:'princedinda1228@gmail.com',
       to:newUser.email,
       subject:'Verify your email account',
-      html:`<h1>${OTP}</h1>`
+      text:OTP
     })
+
     res.status(200).send(user)
   } catch (e) {
     return res.status(500).json(e)
