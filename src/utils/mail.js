@@ -17,7 +17,7 @@ module.exports.mailTransport=()=>{
     secure:true,
     auth:{
       user:process.env.MAILTRAP_USERNAME,
-      pass:process.env.MAILTRAP_PASSWORD
+      password:process.env.MAILTRAP_PASSWORD
     }
   })
   transporter.verify((error, success)=>{
