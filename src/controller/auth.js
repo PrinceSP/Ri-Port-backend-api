@@ -1,6 +1,6 @@
 const User = require('../model/User')
 const VerificationToken = require('../model/verifyToken')
-const generateOTP = require('../utils/mail')
+const {generateOTP,mailTransport} = require('../utils/mail')
 const bcrypt = require('bcrypt')
 
 exports.register = async (req,res)=>{
@@ -25,11 +25,17 @@ exports.register = async (req,res)=>{
       owner:newUser._id,
       token:OTP
     })
-    // console.log(OTP);
 
     // save user to database
     const user =  await newUser.save()
     await newToken.save()
+
+    mailTransport().sendMail({
+      from:'princedinda1228@gmail.com',
+      to:newUser.email,
+      subject:'Verify your email account',
+      html:`<h1>${OTP}</h1>`
+    })
     res.status(200).send(user)
   } catch (e) {
     return res.status(500).json(e)
