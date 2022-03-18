@@ -9,7 +9,8 @@ module.exports.generateOTP=()=>{
   return otp
 }
 
-module.exports.mailTransport=()=>nodemailer.createTransport({
+module.exports.mailTransport=()=>{
+  const transporter = nodemailer.createTransport({
     host:"smtp.gmail.com",
     service:"gmail",
     port:587,
@@ -19,3 +20,12 @@ module.exports.mailTransport=()=>nodemailer.createTransport({
       pass:process.env.MAILTRAP_PASSWORD
     }
   })
+  transporter.verify((error, success)=>{
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+  });
+  return transporter
+}
