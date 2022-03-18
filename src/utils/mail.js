@@ -9,24 +9,11 @@ module.exports.generateOTP=()=>{
   return otp
 }
 
-module.exports.mailTransport=()=>{
-  let transporter = nodemailer.createTransport({
-    host:"smtp.mailtrap.io",
-    // service:"gmail",
-    port:2525,
-    // secure:true,
+module.exports.mailTransport=()=>nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 2525,
     auth:{
-      // type:"login",
       user:process.env.MAILTRAP_USERNAME,
       pass:process.env.MAILTRAP_PASSWORD
     }
   })
-  transporter.verify((error, success)=>{
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Server is ready to take our messages");
-    }
-  });
-  return transporter
-}
