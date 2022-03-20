@@ -35,53 +35,48 @@ module.exports.mailTransport=()=>{
 
 module.exports.emailTemplate = (OTP)=>{
   return `<!DOCTYPE html>
-    <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
-
+    <html lang="en">
     <head>
-    <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->
-    <!--[if !mso]><!-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-    <!--<![endif]-->
     <style>
-    * {
-    box-sizing: border-box;
-    }
+      * {
+      box-sizing: border-box;
+      }
 
-    body {
-    margin: 0;
-    padding: 0;
-    }
+      body {
+      margin: 0;
+      padding: 0;
+      }
 
-    a[x-apple-data-detectors] {
-    color: inherit !important;
-    text-decoration: inherit !important;
-    }
+      a[x-apple-data-detectors] {
+      color: inherit !important;
+      text-decoration: inherit !important;
+      }
 
-    #MessageViewBody a {
-    color: inherit;
-    text-decoration: none;
-    }
+      #MessageViewBody a {
+      color: inherit;
+      text-decoration: none;
+      }
 
-    p {
-    line-height: inherit
-    }
+      p {
+      line-height: inherit
+      }
 
-    @media (max-width:510px) {
-    .row-content {
-      width: 100% !important;
-    }
+      @media (max-width:510px) {
+      .row-content {
+        width: 100% !important;
+      }
 
-    .column .border {
-      display: none;
-    }
+      .column .border {
+        display: none;
+      }
 
-    .stack .column {
-      width: 100%;
-      display: block;
-    }
+      .stack .column {
+        width: 100%;
+        display: block;
+      }
     }
     </style>
     </head>
