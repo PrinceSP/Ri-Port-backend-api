@@ -49,8 +49,9 @@ const User = new mongoose.Schema(
       required:false
     },
     verified:{
-      type:String,
-      // default:false
+      type:Boolean,
+      required:true,
+      default:false,
     }
   },
   {timestamps:true}

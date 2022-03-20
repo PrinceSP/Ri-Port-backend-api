@@ -2,6 +2,7 @@ const User = require('../model/User')
 const VerificationToken = require('../model/verifyToken')
 const {generateOTP,mailTransport,emailTemplate} = require('../utils/mail')
 const bcrypt = require('bcrypt')
+const {isValidObjectId} = require('mongoose')
 
 exports.register = async (req,res)=>{
   try {
@@ -30,7 +31,7 @@ exports.register = async (req,res)=>{
     const user =  await newUser.save()
     await newToken.save()
     const mailOptions = {
-      from:"princedinda1228@gmail.com",
+      from:"RiPort <princedinda1228@gmail.com>",
       to:newUser.email,
       subject:'Verify your email account',
       text: "There is a new article. It's about sending emails, check it out!",
@@ -40,7 +41,7 @@ exports.register = async (req,res)=>{
 
     res.status(200).send(user)
   } catch (e) {
-    return e
+    res.status(500).send(e)
   }
 }
 
@@ -60,12 +61,39 @@ exports.login = async (req,res)=>{
     return e
   }
 }
-//
-module.exports.verifyByUsername = async(req,res)=>{
+
+exports.verifyEmail = async(req,res)=>{
   try {
-    const user = await User.findOne({username:req.body.username})
-    !user && res.status(404).send('user not found')
-    res.status(200).send({datas:user})
+    const {userId,otp} = req.body
+    if(!userId || !otp.trim()) res.send('invalid request, missing parameters')
+    !isValidObjectId(userId) && res.send('invalid user id')
+
+    const user = await User.findById(userId)
+    !user && res.status(404).send('sorry, user not found!')
+
+    user.verified && res.send('this account has been verified')
+
+    const token = await VerificationToken.findOne({owner:user._id})
+    !token && res.status(404).send('sorry, user not found!')
+
+    // const isMatched = await token.compareToken(otp)
+    const isMatched = await bcrypt.compare(otp,token.token)
+    !isMatched && res.send('sorry, token is not the same')
+
+    user.verified = true
+
+    await VerificationToken.findByIdAndDelete(token._id)
+    await user.save()
+
+    const mailOptions = {
+      from:"RiPort <princedinda1228@gmail.com>",
+      to:user.email,
+      subject:'Welcome new user',
+      text: "Email is verified!",
+    }
+    mailTransport().sendMail(mailOptions)
+
+    res.status(200).send(user)
   } catch (e) {
     return e
   }

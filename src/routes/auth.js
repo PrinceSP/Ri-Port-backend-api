@@ -3,6 +3,6 @@ const authController = require('../controller/auth')
 
 router.post('/register',authController.register)
 router.post('/login',authController.login)
-router.post('/verifyByUsername',authController.verifyByUsername)
+router.post('/verify-email',authController.verifyEmail)
 
 module.exports = router
