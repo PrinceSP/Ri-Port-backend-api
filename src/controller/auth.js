@@ -33,9 +33,8 @@ exports.register = async (req,res)=>{
       from:"princedinda1228@gmail.com",
       to:newUser.email,
       subject:'Verify your email account',
-      // text: "There is a new article. It's about sending emails, check it out!",
-      text: `${OTP}`,
-      // html:emailTemplate(OTP)
+      text: "There is a new article. It's about sending emails, check it out!",
+      html:emailTemplate(OTP)
     }
     mailTransport().sendMail(mailOptions)
 
