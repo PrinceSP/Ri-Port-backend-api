@@ -30,7 +30,7 @@ exports.register = async (req,res)=>{
     const user =  await newUser.save()
     await newToken.save()
     const mailOptions = {
-      from:"princepasombaran@hotmail.com",
+      from:"princedinda1228@gmail.com",
       to:newUser.email,
       subject:'Verify your email account',
       text: "There is a new article. It's about sending emails, check it out!",
