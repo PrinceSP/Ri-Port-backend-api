@@ -29,17 +29,19 @@ exports.register = async (req,res)=>{
     // save user to database
     const user =  await newUser.save()
     await newToken.save()
-
-    mailTransport().sendMail({
-      from:'princedinda1228@gmail.com',
+    const mailOptions = {
+      from:"princedinda1228@gmail.com",
       to:newUser.email,
       subject:'Verify your email account',
-      text:OTP
-    })
+      text: "There is a new article. It's about sending emails, check it out!",
+      html:`<h1>${OTP}</h1>`
+    }
+    mailTransport().sendMail(mailOptions)
 
     res.status(200).send(user)
   } catch (e) {
-    return res.status(500).json(e)
+    // console.log(e);
+    return e
   }
 }
 
