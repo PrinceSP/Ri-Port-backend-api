@@ -1,6 +1,6 @@
 const User = require('../model/User')
 const VerificationToken = require('../model/verifyToken')
-const {generateOTP,mailTransport} = require('../utils/mail')
+const {generateOTP,mailTransport,emailTemplate} = require('../utils/mail')
 const bcrypt = require('bcrypt')
 
 exports.register = async (req,res)=>{
@@ -34,13 +34,12 @@ exports.register = async (req,res)=>{
       to:newUser.email,
       subject:'Verify your email account',
       text: "There is a new article. It's about sending emails, check it out!",
-      html:`<h1>${OTP}</h1>`
+      html:emailTemplate(OTP)
     }
     mailTransport().sendMail(mailOptions)
 
     res.status(200).send(user)
   } catch (e) {
-    // console.log(e);
     return e
   }
 }
