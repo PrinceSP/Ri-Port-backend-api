@@ -11,7 +11,7 @@ module.exports.generateOTP=()=>{
 
 module.exports.mailTransport=()=>{
   const transporter = nodemailer.createTransport({
-    service:"gmail",
+    service:"hotmail",
     auth: {
       user: process.env.EMAIL,
       pass: process.env.PASSWORD,
