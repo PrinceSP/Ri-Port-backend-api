@@ -1,14 +1,5 @@
 const nodemailer = require('nodemailer')
 const bcrypt = require('bcrypt')
-const {google} = require('googleapis')
-const OAuth2 = google.auth.OAuth2
-const OAuth2_Client = new OAuth2(
-  process.env.CLIENT_ID,
-  process.env.CLIENT_SECRET,
-)
-OAuth2_Client.setCredentials({
-  refresh_token: process.env.REFRESH_TOKEN
-})
 
 module.exports.generateOTP=()=>{
   let otp = ''
@@ -20,20 +11,13 @@ module.exports.generateOTP=()=>{
 }
 
 module.exports.mailTransport=()=>{
-  const access_token = OAuth_Client.getAccessToken()
   const transporter = nodemailer.createTransport({
-    // host:"smtp.gmail.com",
-    service:"gmail",
-    // port:465,
-    // secure:true,
+    host:"smtp.gmail.com",
+    port:465,
+    secure:true,
     auth: {
-      type:"OAuth2",
       user: process.env.EMAIL,
-      // pass: process.env.PASSWORD,
-      clientId:process.env.CLIENT_ID,
-      clientSecret:process.env.CLIENT_SECRET,
-      refreshToken: process.env.REFRESH_TOKEN,
-      accessToken: access_token
+      pass: process.env.PASSWORD,
     }
   });
 
