@@ -29,8 +29,9 @@ VerificationToken.pre('save',async function(next){
   next()
 })
 
-VerificationToken.methods.comparePassword = async(token)=>{
+VerificationToken.methods.compareToken = async(token)=>{
   const result = await bcrypt.compare(token,this.token)
+  console.log(result);
   return result
 }
 
