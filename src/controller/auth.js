@@ -98,3 +98,19 @@ exports.verifyEmail = async(req,res)=>{
     return e
   }
 }
+
+exports.verifyPhone = (req,res)=>{
+  const accountSid = 'ACb0ce8ba45f1eac9ddd8d1f283d01c875';
+  const authToken = 'ad8f26afa796737af8c2585091e46045';
+  const client = require('twilio')(accountSid, authToken);
+  const OTP=generateOTP()
+
+  client.messages.create({
+     body: `${OTP}`,
+     messagingServiceSid: 'MG608607e6c45639f1e76505ab7132030b',
+     to: '+622349922198'
+   })
+  .then(message => console.log(message.sid))
+  .done();
+  res.status(201).send('success sent OTP')
+}
