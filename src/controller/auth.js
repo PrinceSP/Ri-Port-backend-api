@@ -106,9 +106,9 @@ exports.verifyPhone = (req,res)=>{
   const OTP=generateOTP()
 
   client.messages.create({
-     body: `${OTP}`,
+     body: OTP,
      messagingServiceSid: 'MG608607e6c45639f1e76505ab7132030b',
-     to: '+622349922198'
+     to: req.body.phoneNumber
    })
   .then(message => console.log(message.sid))
   .done();
