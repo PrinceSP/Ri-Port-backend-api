@@ -14,11 +14,8 @@ exports.register = async (req,res)=>{
       username: req.body.username,
       email:  req.body.email,
       password: hashedPassword,
-      // address: req.body.address,
-      // profilePicture: req.body.profilePicture,
       ktpId: req.body.ktpId,
       phoneNumber: req.body.phoneNumber,
-      // dateOfBirth: req.body.dateOfBirth,
     })
 
     const OTP=generateOTP()
@@ -76,7 +73,6 @@ exports.verifyEmail = async(req,res)=>{
     const token = await VerificationToken.findOne({owner:user._id})
     !token && res.status(404).send('sorry, user not found!')
 
-    // const isMatched = await token.compareToken(otp)
     const isMatched = await bcrypt.compare(otp,token.token)
     !isMatched && res.send('sorry, token is not the same')
 
@@ -99,18 +95,56 @@ exports.verifyEmail = async(req,res)=>{
   }
 }
 
-exports.verifyPhone = (req,res)=>{
-  const accountSid = 'ACb0ce8ba45f1eac9ddd8d1f283d01c875';
-  const authToken = '8e4b96e8cbd36193c994c4eb1f89f9c3';
-  const client = require('twilio')(accountSid, authToken);
-  const OTP=generateOTP()
+exports.smsOtpToPhone = async(req,res)=>{
+  const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
-  client.messages.create({
-     body: OTP,
-     messagingServiceSid: 'MG608607e6c45639f1e76505ab7132030b',
-     to: req.body.phoneNumber
-   })
-  .then(message => console.log(message.sid))
-  .done();
-  res.status(201).send('success sent OTP')
+  try {
+    const OTP=generateOTP()
+    const newToken = new VerificationToken({
+      owner:req.body.userId,
+      token:OTP
+    })
+
+    // save token to database
+    // await newToken.save()
+
+    client.messages.create({
+      body: OTP,
+      messagingServiceSid: 'MG608607e6c45639f1e76505ab7132030b',
+      to: "+6281213507373"
+    })
+    .then(message => console.log(message.sid))
+    .done();
+    res.status(200).send(OTP)
+  } catch (e) {
+    return e
+  }
+}
+
+exports.verifyPhoneNumber = async(req,res)=>{
+  try {
+    const {userId,otp} = req.body
+    (!userId && !otp.trim()) && res.send('invalid request, missing parameters')
+    !isValidObjectId(userId) && res.send('invalid user id')
+
+    const user = await User.findById(userId)
+    !user && res.status(404).send('sorry, user not found!')
+
+    user.phoneNumber.verified && res.send('phone number is verified')
+
+    const token = await VerificationToken.findOne({owner:user._id})
+    !token && res.status(404).send('sorry, user not found!')
+
+    const isMatched = await bcrypt.compare(otp,token.token)
+    !isMatched && res.send('sorry, token is not the same')
+
+    user.phoneNumber.verified = true
+
+    await VerificationToken.findByIdAndDelete(token._id)
+    await user.save()
+
+    res.status(200).send(user)
+  } catch (e) {
+    res.status(500).send('internal error')
+  }
 }
