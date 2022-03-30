@@ -29,10 +29,4 @@ VerificationToken.pre('save',async function(next){
   next()
 })
 
-VerificationToken.methods.compareToken = async(token)=>{
-  const result = await bcrypt.compare(token,this.token)
-  console.log(result);
-  return result
-}
-
 module.exports = mongoose.model("VerificationToken", VerificationToken)
