@@ -52,6 +52,11 @@ const Post = new mongoose.Schema(
     status:{
       type:String,
       default:"Pending"
+    },
+    verified:{
+      type:Boolean,
+      required:true,
+      default:false
     }
   },
   {timestamps:true}
