@@ -29,7 +29,7 @@ exports.register = async (req,res)=>{
     await newToken.save()
     const mailOptions = {
       from:"RiPort <princedinda1228@gmail.com>",
-      to:newUser.email,
+      to:newUser.email.mail,
       subject:'Verify your email account',
       text: "There is a new article. It's about sending emails, check it out!",
       html:emailTemplate(OTP)
@@ -68,7 +68,7 @@ exports.verifyEmail = async(req,res)=>{
     const user = await User.findById(userId)
     !user && res.status(404).send('sorry, user not found!')
 
-    user.verified && res.send('this account has been verified')
+    user.email.verified===true && res.send('this account has been verified')
 
     const token = await VerificationToken.findOne({owner:user._id})
     !token && res.status(404).send('sorry, user not found!')
@@ -76,14 +76,14 @@ exports.verifyEmail = async(req,res)=>{
     const isMatched = await bcrypt.compare(otp,token.token)
     !isMatched && res.send('sorry, token is not the same')
 
-    user.verified = true
+    user.email.verified = true
 
     await VerificationToken.findByIdAndDelete(token._id)
     await user.save()
 
     const mailOptions = {
       from:"RiPort <princedinda1228@gmail.com>",
-      to:user.email,
+      to:user.email.mail,
       subject:'Welcome new user',
       text: "Email is verified!",
     }

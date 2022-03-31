@@ -15,11 +15,18 @@ const User = new mongoose.Schema(
       min: 8,
     },
     email:{
-      type:String,
-      required:true,
-      min: 8,
-      max: 25,
-      unique: true
+      mail:{
+        type:String,
+        required:true,
+        min: 8,
+        max: 25,
+        unique: true
+      },
+      verified:{
+        type:Boolean,
+        required:true,
+        default:false,
+      }
     },
     password:{
       type:String,
@@ -54,11 +61,6 @@ const User = new mongoose.Schema(
     dateOfBirth:{
       type:String,
       required:false
-    },
-    verified:{
-      type:Boolean,
-      required:true,
-      default:false,
     }
   },
   {timestamps:true}
