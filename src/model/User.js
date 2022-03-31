@@ -40,16 +40,13 @@ const User = new mongoose.Schema(
       required:false
     },
     phoneNumber:{
-      // type:String,
-      // unique:true,
-      // required:true
       number:{
         type:String,
         unique:true,
         required:true
       },
       verified:{
-        type:String,
+        type:Boolean,
         required:true,
         default:false
       }

@@ -99,6 +99,9 @@ exports.smsOtpToPhone = async(req,res)=>{
   const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
   try {
+    const user = await User.findById(req.body.userId)
+    !user && res.status(404).send('sorry, user not found!')
+
     const OTP=generateOTP()
     const newToken = new VerificationToken({
       owner:req.body.userId,
@@ -106,7 +109,7 @@ exports.smsOtpToPhone = async(req,res)=>{
     })
 
     // save token to database
-    // await newToken.save()
+    await newToken.save()
 
     client.messages.create({
       body: OTP,
@@ -115,36 +118,36 @@ exports.smsOtpToPhone = async(req,res)=>{
     })
     .then(message => console.log(message.sid))
     .done();
-    res.status(200).send(OTP)
+
+    res.status(200).send(user)
   } catch (e) {
-    return e
+    res.status(500).send(e)
   }
 }
 
 exports.verifyPhoneNumber = async(req,res)=>{
   try {
-    const {userId,otp} = req.body
-    (!userId && !otp.trim()) && res.send('invalid request, missing parameters')
-    !isValidObjectId(userId) && res.send('invalid user id')
+    (!req.body.userId && !req.body.otp.trim()) && res.send('invalid request, missing parameters')
+    !isValidObjectId(req.body.userId) && res.send('invalid user id')
 
-    const user = await User.findById(userId)
+    const user = await User.findById(req.body.userId)
     !user && res.status(404).send('sorry, user not found!')
 
-    user.phoneNumber.verified && res.send('phone number is verified')
+    user.phoneNumber.verified===true && res.send('phone number is verified')
 
     const token = await VerificationToken.findOne({owner:user._id})
     !token && res.status(404).send('sorry, user not found!')
 
-    const isMatched = await bcrypt.compare(otp,token.token)
+    const isMatched = await bcrypt.compare(req.body.otp,token.token)
     !isMatched && res.send('sorry, token is not the same')
-
+    //
     user.phoneNumber.verified = true
-
+    //
     await VerificationToken.findByIdAndDelete(token._id)
     await user.save()
 
     res.status(200).send(user)
   } catch (e) {
-    res.status(500).send('internal error')
+    res.status(500).send(e)
   }
 }
