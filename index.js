@@ -6,7 +6,7 @@ const helmet = require("helmet")
 const bodyparser = require('body-parser')
 
 //import routes
-const {authRoute,userRoute,postRoute,feedbackRoute,visionRoute} = require('./src/routes')
+const {authRoute,userRoute,postRoute,feedbackRoute} = require('./src/routes')
 
 dotenv.config()
 const app = express()
@@ -27,7 +27,6 @@ app.use('/api/auth',authRoute)
 app.use('/api/users',userRoute)
 app.use('/api/posts',postRoute)
 app.use('/api/feedback',feedbackRoute)
-app.use('/api/vision',visionRoute)
 
 app.use(morgan('common'))
 app.use(helmet())
@@ -35,6 +34,7 @@ app.use(helmet())
 app.use('/',async(req,res)=>{
   res.status(200).send('server is connected. this is / endpoint')
 })
+
 //connnect to MongoDB database with mongoose library
 //app listen to the port for localhost server
 mongoose.connect(process.env.MONGO).then(()=>{

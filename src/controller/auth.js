@@ -77,10 +77,14 @@ exports.verifyEmail = async(req,res)=>{
     const isMatched = await bcrypt.compare(otp,token.token)
     !isMatched && res.send('sorry, token is not the same')
 
-    user.email.verified = true
+    if (isMatched===true) {
+      user.email.verified = true
+      await VerificationToken.findByIdAndDelete(token._id)
+      await user.save()
+    } else {
+      user.email.verified = false
+    }
 
-    await VerificationToken.findByIdAndDelete(token._id)
-    await user.save()
 
     const mailOptions = {
       from:"RiPort <princedinda1228@gmail.com>",
