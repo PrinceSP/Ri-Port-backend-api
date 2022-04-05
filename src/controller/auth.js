@@ -1,5 +1,6 @@
 const User = require('../model/User')
 const VerificationToken = require('../model/verifyToken')
+const VerifyPhoneToken = require('../model/verifyPhoneToken')
 const {generateOTP,mailTransport,emailTemplate} = require('../utils/mail')
 const bcrypt = require('bcrypt')
 const {isValidObjectId} = require('mongoose')
@@ -103,7 +104,7 @@ exports.smsOtpToPhone = async(req,res)=>{
     !user && res.status(404).send('sorry, user not found!')
 
     const OTP=generateOTP()
-    const newToken = new VerificationToken({
+    const newToken = new VerifyPhoneToken({
       owner:req.body.userId,
       token:OTP
     })
@@ -135,19 +136,22 @@ exports.verifyPhoneNumber = async(req,res)=>{
 
     user.phoneNumber.verified===true && res.send('phone number is verified')
 
-    const token = await VerificationToken.findOne({owner:user._id})
+    const token = await VerifyPhoneToken.findOne({owner:user._id})
     !token && res.status(404).send('sorry, user not found!')
 
     const isMatched = await bcrypt.compare(req.body.otp,token.token)
     !isMatched && res.send('sorry, token is not the same')
-    //
-    user.phoneNumber.verified = true
-    //
-    await VerificationToken.findByIdAndDelete(token._id)
-    await user.save()
+
+    if (isMatched===true) {
+      user.phoneNumber.verified = true
+      await VerifyPhoneToken.findByIdAndDelete(token._id)
+      await user.save()
+    } else {
+      user.phoneNumber.verified = false
+    }
 
     res.status(200).send(user)
   } catch (e) {
-    res.status(500).send(e)
+    return e
   }
 }
