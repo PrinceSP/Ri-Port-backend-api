@@ -117,7 +117,7 @@ exports.smsOtpToPhone = async(req,res)=>{
     client.messages.create({
       body: OTP,
       messagingServiceSid: 'MG608607e6c45639f1e76505ab7132030b',
-      to: "+6281213507373"
+      to: req.body.phoneNumber
     })
     .then(message => console.log(message.sid))
     .done();
