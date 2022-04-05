@@ -81,18 +81,16 @@ exports.verifyEmail = async(req,res)=>{
       user.email.verified = true
       await VerificationToken.findByIdAndDelete(token._id)
       await user.save()
+      const mailOptions = {
+        from:"RiPort <princedinda1228@gmail.com>",
+        to:user.email.mail,
+        subject:'Welcome new user',
+        text: "Email is verified!",
+      }
+      mailTransport().sendMail(mailOptions)
     } else {
       user.email.verified = false
     }
-
-
-    const mailOptions = {
-      from:"RiPort <princedinda1228@gmail.com>",
-      to:user.email.mail,
-      subject:'Welcome new user',
-      text: "Email is verified!",
-    }
-    mailTransport().sendMail(mailOptions)
 
     res.status(200).send(user)
   } catch (e) {
