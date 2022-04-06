@@ -130,19 +130,19 @@ exports.smsOtpToPhone = async(req,res)=>{
 
 exports.verifyPhoneNumber = async(req,res)=>{
   try {
-    (!req.body.userId && !req.body.otp.trim()) && res.send('invalid request, missing parameters')
-    !isValidObjectId(req.body.userId) && res.send('invalid user id')
+    (!req.body.userId && !req.body.otp.trim()) && res.send({message:'invalid request, missing parameters'})
+    !isValidObjectId(req.body.userId) && res.send({message:'invalid user id'})
 
     const user = await User.findById(req.body.userId)
-    !user && res.status(404).send('sorry, user not found!')
+    !user && res.status(404).send({message:'sorry, user not found!'})
 
-    user.phoneNumber.verified===true && res.send('phone number is verified')
+    user.phoneNumber.verified === true && res.send({message:'phone number is already verified'})
 
     const token = await VerifyPhoneToken.findOne({owner:user._id})
-    !token && res.status(404).send('sorry, user not found!')
+    !token && res.status(404).send({message:'sorry, token not found!'})
 
     const isMatched = await bcrypt.compare(req.body.otp,token.token)
-    !isMatched && res.send('sorry, token is not the same')
+    !isMatched && res.send({message:'sorry, token is not the same'})
 
     if (isMatched===true) {
       user.phoneNumber.verified = true
@@ -152,7 +152,7 @@ exports.verifyPhoneNumber = async(req,res)=>{
       user.phoneNumber.verified = false
     }
 
-    res.status(200).send(user)
+    res.status(200).send({message:'Your phone number is verified'})
   } catch (e) {
     return e
   }
