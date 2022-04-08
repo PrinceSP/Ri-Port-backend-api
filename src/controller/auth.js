@@ -13,6 +13,7 @@ exports.register = async (req,res)=>{
     //create new user
     const newUser = new User({
       username: req.body.username,
+      fullname: req.body.fullname,
       email:  req.body.email,
       password: hashedPassword,
       ktpId: req.body.ktpId,
