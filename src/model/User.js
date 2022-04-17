@@ -61,6 +61,11 @@ const User = new mongoose.Schema(
     dateOfBirth:{
       type:String,
       required:false
+    },
+    role:{
+      type:String,
+      required:true,
+      default:"reporter"
     }
   },
   {timestamps:true}
