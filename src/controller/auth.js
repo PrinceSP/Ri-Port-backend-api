@@ -18,6 +18,7 @@ exports.register = async (req,res)=>{
       password: hashedPassword,
       ktpId: req.body.ktpId,
       phoneNumber: req.body.phoneNumber,
+      role: req.body.role,
     })
 
     const OTP=generateOTP()
