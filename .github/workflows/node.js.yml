@@ -19,14 +19,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+    # - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: "14.18.0"
-        heroku_api_key: "bf6269ce-f23c-4f77-9ac5-000bab5caaa6"
-        heroku_app_name: "riport" #Must be unique in Heroku
-        heroku_email: "princepasombaran@gmail.com"
+        # heroku_api_key: "bf6269ce-f23c-4f77-9ac5-000bab5caaa6"
+        # heroku_app_name: "riport" #Must be unique in Heroku
+        # heroku_email: "princepasombaran@gmail.com"
 
     - run: npm ci
     - run: npm run build --if-present
