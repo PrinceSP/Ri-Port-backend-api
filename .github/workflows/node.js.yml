@@ -27,6 +27,7 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: "roadinfrastructurereport" #Must be unique in Heroku
         heroku_email: "princedinda1228@gmail.com"
+        remote_branch: "main"
 
     - run: npm ci
     - run: npm run build --if-present
