@@ -4,18 +4,18 @@ orbs:
   heroku: circleci/heroku@1.2.6
 
 jobs:
-  build:
-    working_directory: ~/backend_api
-    executor: node/default
+  test_my_app:
+    docker:
+      - image: cimg/node:17.2.0
     steps:
       - checkout
-      - node/install-npm
       - node/install-packages:
-          app-dir: ~/backend_api
-          cache-path: node_modules
-          override-ci-command: npm i
+          pkg-manager: npm
+      - run:
+          command: npm build
+          name: Build app
       - persist_to_workspace:
-          root: .
+          root: ~/project
           paths:
             - .
 
@@ -29,7 +29,12 @@ jobs:
           force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
 
 workflows:
-  version: 2.1
-  build:
+  test_my_app:
     jobs:
-      - build
+      - build_and_test
+      - deploy:
+          requires:
+            - build_and_test # only deploy if the build_and_test job has completed
+          filters:
+            branches:
+              only: main # only deploy when on main
