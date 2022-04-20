@@ -25,8 +25,8 @@ jobs:
       with:
         node-version: "14.18.0"
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: "riport" #Must be unique in Heroku
-        heroku_email: "princepasombaran@gmail.com"
+        heroku_app_name: "roadinfrastructurereport" #Must be unique in Heroku
+        heroku_email: "princedinda1228@gmail.com"
 
     - run: npm ci
     - run: npm run build --if-present
