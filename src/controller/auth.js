@@ -50,7 +50,7 @@ exports.login = async (req,res)=>{
     //query to find only one of the user from database
     const user = await User.findOne({username:req.body.username})
     //when user not found after query
-    !user && res.status(404).json('user not found')
+    !user && res.status(404).send({message:'user not found'})
     //query to check if the user password is valid or not when user send POST request to login with this API
     const validPassword = await bcrypt.compare(req.body.password, user.password)
     //when password is not the same with password stored in database or bad request
@@ -71,13 +71,13 @@ exports.verifyEmail = async(req,res)=>{
     const user = await User.findById(userId)
     !user && res.status(404).send('sorry, user not found!')
 
-    user.email.verified===true && res.send('this account has been verified')
+    user.email.verified===true && res.send({message:'this account has been verified'})
 
     const token = await VerificationToken.findOne({owner:user._id})
-    !token && res.status(404).send('sorry, user not found!')
+    !token && res.status(404).send({message:'sorry, user not found!'})
 
     const isMatched = await bcrypt.compare(otp,token.token)
-    !isMatched && res.send('sorry, token is not the same')
+    !isMatched && res.send({message:'sorry, token is not the same'})
 
     if (isMatched===true) {
       user.email.verified = true

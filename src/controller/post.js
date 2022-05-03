@@ -1,13 +1,16 @@
 const Post = require('../model/post')
 const User = require('../model/User')
+// const io = require('../../index')
 
 exports.createPost = async (req,res)=>{
-  const newPost = new Post(req.body)
   try {
-    const savedPost = await newPost.save()
-    res.status(200).send(savedPost)
+    const newPost = new Post(req.body)
+    await newPost.save()
+    const userPosts = await Post.find().sort({_id:-1})
+    // io.emit('add-posts',userPosts)
+    res.status(201).send(newPost)
   } catch (e) {
-    return res.status(500).json(e)
+    return res.status(500).send(e)
   }
 }
 
@@ -16,9 +19,9 @@ exports.updatePost = async (req,res)=>{
     const post = await Post.findById(req.params.id)
     if ( post.userId === req.body.userId) {
       await post.updateOne({$set: req.body})
-      res.status(200).json('post has been updated')
+      res.status(200).send('post has been updated')
     } else{
-      res.status(403).json('you can only update your post')
+      res.status(403).send('you can only update your post')
     }
   } catch(e){
     return e
@@ -32,12 +35,12 @@ exports.deletePost = async (req,res)=>{
     const post = await Post.findById(req.params.id)
     if ( post.userId === req.body.userId) {
       await post.deleteOne()
-      res.status(200).json('post has been deleted')
+      res.status(200).send('post has been deleted')
     } else{
-      res.status(403).json('you can only delete your post')
+      res.status(403).send('you can only delete your post')
     }
   } catch(e){
-    res.status(500).json(e)
+    res.status(500).send(e)
   }
 }
 

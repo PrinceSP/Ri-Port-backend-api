@@ -11,6 +11,11 @@ const Post = new mongoose.Schema(
       required:true,
       min:8
     },
+    userPicture:{
+      type:String,
+      required:true,
+      default:"-"
+    },
     title:{
       type:String,
       required:false,
