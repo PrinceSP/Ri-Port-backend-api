@@ -58,7 +58,7 @@ exports.getPost = async (req,res)=>{
 exports.getPostsList = async (req,res)=>{
   try{
     const currentUser = await User.findById(req.params.userId)
-    const userPosts = await Post.find({userId:currentUser._id})
+    const userPosts = await Post.find({userId:currentUser._id}).sort({_id:-1})
     res.status(200).json(userPosts)
   } catch(e){
     res.status(500).json(e)
