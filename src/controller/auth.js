@@ -79,7 +79,7 @@ exports.verifyEmail = async(req,res)=>{
     const isMatched = await bcrypt.compare(otp,token.token)
     !isMatched && res.send({message:'sorry, token is not the same'})
 
-    if (isMatched===true) {
+    if (isMatched) {
       user.email.verified = true
       await VerificationToken.findByIdAndDelete(token._id)
       await user.save()
