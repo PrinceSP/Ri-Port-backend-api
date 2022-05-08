@@ -8,14 +8,14 @@ const {isValidObjectId} = require('mongoose')
 exports.register = async (req,res)=>{
   try {
     //generate new password and encrypt it with bcrypt
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    // const salt = await bcrypt.genSalt(10)
+    // const hashedPassword = await bcrypt.hash(req.body.password, 10)
     //create new user
     const newUser = new User({
       username: req.body.username,
       fullname: req.body.fullname,
       email:  req.body.email,
-      password: hashedPassword,
+      password: req.body.password,
       ktpId: req.body.ktpId,
       phoneNumber: req.body.phoneNumber,
       role: req.body.role,
@@ -52,7 +52,7 @@ exports.login = async (req,res)=>{
     //when user not found after query
     !user && res.status(404).send({message:'user not found'})
     //query to check if the user password is valid or not when user send POST request to login with this API
-    const validPassword = await bcrypt.compare(req.body.password, user.password)
+    const validPassword = await user.comparePassword(req.body.password)
     //when password is not the same with password stored in database or bad request
     !validPassword && res.status(400).send({message:'wrong password'})
     //when there's nothing wrong, then send message
