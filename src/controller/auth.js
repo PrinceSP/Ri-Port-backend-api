@@ -7,9 +7,6 @@ const {isValidObjectId} = require('mongoose')
 
 exports.register = async (req,res)=>{
   try {
-    //generate new password and encrypt it with bcrypt
-    // const salt = await bcrypt.genSalt(10)
-    // const hashedPassword = await bcrypt.hash(req.body.password, 10)
     //create new user
     const newUser = new User({
       username: req.body.username,
@@ -70,16 +67,15 @@ exports.verifyEmail = async(req,res)=>{
 
     const user = await User.findById(userId)
     !user && res.status(404).send('sorry, user not found!')
-
     user.email.verified===true && res.send({message:'this account has been verified'})
 
     const token = await VerificationToken.findOne({owner:user._id})
     !token && res.status(404).send({message:'sorry, user not found!'})
 
     const isMatched = await bcrypt.compare(otp,token.token)
-    !isMatched && res.send({message:'sorry, token is not the same'})
+    if(!isMatched) return res.status(404).send({message:'sorry, token is not the same'})
 
-    if (isMatched) {
+    if (isMatched === true) {
       user.email.verified = true
       await VerificationToken.findByIdAndDelete(token._id)
       await user.save()
@@ -94,7 +90,7 @@ exports.verifyEmail = async(req,res)=>{
       user.email.verified = false
     }
 
-    res.status(200).send(user)
+    res.status(200).send('Email is verified!')
   } catch (e) {
     return e
   }

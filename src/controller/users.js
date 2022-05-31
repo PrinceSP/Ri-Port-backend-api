@@ -9,33 +9,30 @@ exports.updateUser = async (req,res)=>{
   if (req.body.userId === req.params.id) {
     if (req.body.password) {
       try{
-        const salt = await bcrypt.genSalt(10)
-        req.body.password = await bcrypt.hash(req.body.password,salt)
+        // const salt = await bcrypt.genSalt(10)
+        // req.body.password = await bcrypt.hash(req.body.password,salt)
         res.status(200).json('password has been updated')
       } catch(e){
         return e
       }
     }
 
-    if (req.body.userId === req.params.id) {
-      if(req.body.email?.mail){
-        const OTP=generateOTP()
-        const newToken = new VerificationToken({
-          owner:req.body.userId,
-          token:OTP
-        })
-        await newToken.save()
-        const mailOptions = {
-          from:"RiPort <princedinda1228@gmail.com>",
-          to:req.body.email.mail,
-          subject:'Verify your email account',
-          text: "There is a new article. It's about sending emails, check it out!",
-          html:emailTemplate(OTP)
-        }
-        mailTransport().sendMail(mailOptions)
+    if(req.body.email?.mail){
+      req.body.email.verified=false
+      const OTP=generateOTP()
+      const newToken = new VerificationToken({
+        owner:req.body.userId,
+        token:OTP
+      })
+      await newToken.save()
+      const mailOptions = {
+        from:"RiPort <princedinda1228@gmail.com>",
+        to:req.body.email.mail,
+        subject:'Verify your email account',
+        text: "There is a new article. It's about sending emails, check it out!",
+        html:emailTemplate(OTP)
       }
-    } else {
-      return null
+      mailTransport().sendMail(mailOptions)
     }
 
     try {

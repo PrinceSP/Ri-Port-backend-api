@@ -1,16 +1,13 @@
 const Post = require('../model/post')
 const User = require('../model/User')
-// const io = require('../../index')
 
 exports.createPost = async (req,res)=>{
   try {
     const newPost = new Post(req.body)
     await newPost.save()
-    const userPosts = await Post.find().sort({_id:-1})
-    // io.emit('add-posts',userPosts)
     res.status(201).send(newPost)
   } catch (e) {
-    return res.status(500).send(e)
+    return e
   }
 }
 
